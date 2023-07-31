@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-
-    [SerializeField] private Rigidbody rb;
-    public Transform bulletSpawnPoint;
-    public GameObject bulleto;
+    [SerializeField] public Transform bulletSpawnPoint;
+    public GameObject bulletObj;
     [SerializeField] public float bulletSpeed = 10;
     private GameObject bullet;
-    void Update()
+    [SerializeField] private int noOfPlayer;
+
+    public void SpawnBullet()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (Input.GetButtonDown("Fire1P" + noOfPlayer))
         {
-            bullet = Instantiate(bulleto, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+            bullet = Instantiate(bulletObj, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
             bullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * bulletSpeed;
         }
     }
