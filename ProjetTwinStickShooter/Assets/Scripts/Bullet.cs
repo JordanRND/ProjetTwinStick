@@ -5,6 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] public float life = 3;
+    [SerializeField] private GameObject bullet;
 
     void Awake()
     {
@@ -13,7 +14,12 @@ public class Bullet : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Destroy(collision.gameObject);
-        Destroy(gameObject);
+        if (collision.gameObject.tag == "Enemy")
+        {
+            //Destroy(collision.gameObject);
+            //Destroy(bullet);
+            collision.gameObject.SetActive(false);
+            bullet.SetActive(false);
+        }
     }
 }
