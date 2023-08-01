@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] public float life = 3;
+    [SerializeField] public float life = 1;
     [SerializeField] private GameObject bullet;
 
     void Awake()
@@ -19,6 +19,9 @@ public class Bullet : MonoBehaviour
             //Destroy(collision.gameObject);
             //Destroy(bullet);
             collision.gameObject.SetActive(false);
+            bullet.SetActive(false);
+        } else
+        {
             bullet.SetActive(false);
         }
     }
