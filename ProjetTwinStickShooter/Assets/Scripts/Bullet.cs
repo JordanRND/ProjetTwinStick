@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] public float life = 1;
+    public float life = 1f;
     [SerializeField] private GameObject bullet;
 
-    void Awake()
+    void Update()
     {
         Destroy(gameObject, life);
     }
@@ -19,9 +19,6 @@ public class Bullet : MonoBehaviour
             //Destroy(collision.gameObject);
             //Destroy(bullet);
             collision.gameObject.SetActive(false);
-            bullet.SetActive(false);
-        } else
-        {
             bullet.SetActive(false);
         }
     }
