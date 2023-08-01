@@ -7,8 +7,13 @@ public class RoomManager : MonoBehaviour
     [SerializeField] private GameObject[] enemies;
     [SerializeField] private GameObject[] doors;
     [SerializeField] private bool[] playerIsInTheRoom;
-    public int counter = 0;
-    public int killedEnemies = 0;
+    public int enemiesCounter = 0;
+    private Enemy enemy;
+
+    public void Start()
+    {
+        enemiesCounter = enemies.Length;
+    }
 
     private void AllPlayersAreInTheRoom()
     {
@@ -37,22 +42,13 @@ public class RoomManager : MonoBehaviour
 
     public void CheckEnemiesRemaining()
     {
-        foreach (GameObject enemy in enemies)
-        {
-            counter++;
-        }
-        counter -= killedEnemies;
-        if (counter == 0)
+        enemiesCounter--;
+        if (enemiesCounter <= 0)
         {
             foreach (GameObject door in doors)
             {
                 door.SetActive(false);
             }
         }
-    }
-
-    private void Update()
-    {   
-        CheckEnemiesRemaining();
     }
 }

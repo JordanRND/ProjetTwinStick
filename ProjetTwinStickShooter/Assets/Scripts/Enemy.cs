@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
-    [SerializeField] private RoomManager roomManager;
     [SerializeField] private GameObject enemy;
+    [SerializeField] private RoomManager roomManager;
     public enum EnemyState
     {
         Chase,
@@ -30,12 +29,9 @@ public class NewBehaviourScript : MonoBehaviour
 
     }
 
-    public void KilledEnemy()
+    public void OnDisable()
     {
-        if (!enemy.activeSelf)
-        {
-            roomManager.killedEnemies++;
-        }
+        roomManager.CheckEnemiesRemaining();
     }
 
     private void Update()
@@ -47,10 +43,10 @@ public class NewBehaviourScript : MonoBehaviour
             case EnemyState.Chase:
                 Chase();
                 break;
-            case EnemyState.Attack: 
+            case EnemyState.Attack:
                 Attack();
                 break;
         }
-        KilledEnemy();
+
     }
 }
