@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -18,6 +19,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float rocketSpeed = 10;
     private bool rocketUsed;
     [SerializeField] private AudioClip shootSound;
+
+    private int maxAmmo = 10;
+    private int currentAmmo;
+    private float reloadTime = 1.5f;
+    private bool canShoot = true;
+
+    [SerializeField] private TextMeshProUGUI ammoCounter;
+
+    public void Start()
+    {
+        currentAmmo = maxAmmo;
+    }
 
     public void Move(Vector2 moveTo)
     {
@@ -37,6 +50,7 @@ public class PlayerController : MonoBehaviour
             SoundManager.instance.PlaySound(shootSound);
             bullet = Instantiate(bulletObj, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
             bullet.GetComponent<Rigidbody>().velocity = bulletSpawnPoint.forward * bulletSpeed;
+            currentAmmo--;
         }
     }
 
@@ -52,9 +66,36 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator Reload()
+    {
+        if (Input.GetButtonDown("ReloadP" + noOfPlayer))
+        {
+            Debug.Log("Reloading...");
+            canShoot = false;
+            yield return new WaitForSeconds(reloadTime);
+            canShoot = true;
+            currentAmmo = maxAmmo;
+            ammoCounter.text = currentAmmo + "/" + maxAmmo;
+        }
+    }
+
     public void Update()
     {
-        Fire1();
+        if (currentAmmo <= 0)
+        {
+            canShoot = false;
+        }
+
+        if (currentAmmo >= 0 && currentAmmo < maxAmmo)
+        {
+            StartCoroutine(Reload());
+        }
+
+        if (canShoot == true)
+        {
+            Fire1();
+            ammoCounter.text = currentAmmo + "/" + maxAmmo;
+        }
         StartCoroutine(Fire2());
     }
 }

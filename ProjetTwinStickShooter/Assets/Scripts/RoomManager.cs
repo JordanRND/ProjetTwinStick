@@ -13,23 +13,26 @@ public class RoomManager : MonoBehaviour
     private bool vague1;
     private bool vague2;
     private bool vague3;
+    [SerializeField] private Collider entranceZone;
 
     public void Start()
     {
         enemiesCounter = enemiesV1.Length;
     }
 
-    private void AllPlayersAreInTheRoom()
+    private IEnumerator AllPlayersAreInTheRoom()
     {
+        yield return new WaitForSeconds(0.5f);
         foreach (GameObject door in doors)
         {
             door.SetActive(true);
         }
-
+        yield return new WaitForSeconds(2f);
         foreach (GameObject enemy in enemiesV1)
         {
             enemy.SetActive(true);
         }
+        entranceZone.GetComponent<Collider>().enabled = false;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -39,7 +42,7 @@ public class RoomManager : MonoBehaviour
             playerIsInTheRoom[inputManager.noOfPlayer - 1] = true;
             if (playerIsInTheRoom[0] && playerIsInTheRoom[1])
             {
-                AllPlayersAreInTheRoom();
+                StartCoroutine(AllPlayersAreInTheRoom());
             }
         }
     }
