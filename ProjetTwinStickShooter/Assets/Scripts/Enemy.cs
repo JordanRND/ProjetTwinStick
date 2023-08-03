@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
 
     public void OnDisable()
     {
-        roomManager.CheckEnemiesRemaining();
+        roomManager.EnemiesKlled();
     }
 
     private void Update()

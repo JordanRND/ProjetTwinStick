@@ -7,7 +7,6 @@ public class InputManager : MonoBehaviour
     [SerializeField] private PlayerController pc;
     [SerializeField] public int noOfPlayer;
     private Vector2 direction;
-    [SerializeField] private Gun gun;
 
     private void GetDirection()
     {
@@ -19,6 +18,5 @@ public class InputManager : MonoBehaviour
     {
         GetDirection();
         pc.Move(direction);
-        gun.SpawnBullet();
     }
 }

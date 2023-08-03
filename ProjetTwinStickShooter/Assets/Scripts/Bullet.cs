@@ -4,20 +4,18 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public float life = 1f;
+    public float life = 3f;
     [SerializeField] private GameObject bullet;
 
-    void Update()
+    private void Update()
     {
         Destroy(gameObject, life);
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            //Destroy(collision.gameObject);
-            //Destroy(bullet);
             collision.gameObject.SetActive(false);
             bullet.SetActive(false);
         }

@@ -4,15 +4,19 @@ using UnityEngine;
 
 public class RoomManager : MonoBehaviour
 {
-    [SerializeField] private GameObject[] enemies;
+    [SerializeField] private GameObject[] enemiesV1;
+    [SerializeField] private GameObject[] enemiesV2;
+    [SerializeField] private GameObject[] enemiesV3;
     [SerializeField] private GameObject[] doors;
     [SerializeField] private bool[] playerIsInTheRoom;
     public int enemiesCounter = 0;
-    private Enemy enemy;
+    private bool vague1;
+    private bool vague2;
+    private bool vague3;
 
     public void Start()
     {
-        enemiesCounter = enemies.Length;
+        enemiesCounter = enemiesV1.Length;
     }
 
     private void AllPlayersAreInTheRoom()
@@ -22,7 +26,7 @@ public class RoomManager : MonoBehaviour
             door.SetActive(true);
         }
 
-        foreach (GameObject enemy in enemies)
+        foreach (GameObject enemy in enemiesV1)
         {
             enemy.SetActive(true);
         }
@@ -40,15 +44,60 @@ public class RoomManager : MonoBehaviour
         }
     }
 
-    public void CheckEnemiesRemaining()
+    public void EnemiesKlled()
     {
         enemiesCounter--;
-        if (enemiesCounter <= 0)
+        StartCoroutine(VagueManager());
+    }
+
+    public IEnumerator VagueManager()
+    {
+        while (!vague1)
         {
-            foreach (GameObject door in doors)
+            if (enemiesCounter <= 0)
             {
-                door.SetActive(false);
+                yield return new WaitForSeconds(2f);
+                enemiesCounter = enemiesV2.Length;
+                foreach (GameObject enemy in enemiesV2)
+                {
+                    enemy.SetActive(true);
+                }
+                vague1 = true;
+            }
+            yield return null;
+        }
+
+        while (!vague2)
+        {
+            if (enemiesCounter <= 0)
+            {
+                yield return new WaitForSeconds(2f);
+                enemiesCounter = enemiesV3.Length;
+                foreach (GameObject enemy in enemiesV3)
+                {
+                    enemy.SetActive(true);
+                }
+                vague2 = true;
+            }
+            yield return null;
+        }
+
+        if (enemiesCounter <= 0 && vague1 == true && vague2 == true)
+        {
+            vague3 = true;
+            yield return new WaitForSeconds(2f);
+            if (vague3 == true)
+            {
+                foreach (GameObject door in doors)
+                {
+                    door.SetActive(false);
+                }
             }
         }
+
+    }
+    private void Update()
+    {
+
     }
 }
